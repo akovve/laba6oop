@@ -8,13 +8,11 @@
 #include "Point2D.h"
 #include "Point3D.h"
 
-// Вспомогательная структура для задания 2
 struct Applicant {
     std::string surname;
     std::string name;
     int scores[3];
 
-    // Для сортировки по фамилии, затем по имени
     bool operator<(const Applicant& other) const {
         if (surname != other.surname) return surname < other.surname;
         return name < other.name;
@@ -27,7 +25,6 @@ struct Applicant {
 void Task1() {
     std::cout << "Задание 1: Дискотеки\n";
 
-    // Перечень всех дискотек города
     MySet<std::string> all_discos;
     all_discos.Add("Вышка 2");
     all_discos.Add("Улица 1905 года");
@@ -35,7 +32,6 @@ void Task1() {
     all_discos.Add("Гостиница Космос");
     all_discos.Add("Юность на Cherry Tiggo 7 Pro Max");
 
-    // Студенты и их посещения
     MySet<std::string> student1;
     student1.Add("Вышка 2");
     student1.Add("Улица 1905 года");
@@ -51,7 +47,6 @@ void Task1() {
 
     std::vector<MySet<std::string>> students = {student1, student2, student3};
 
-    // 1. Дискотеки, которые ходили все студенты (пересечение всех множеств)
     MySet<std::string> all_visited = students[0];
     for (size_t i = 1; i < students.size(); ++i) {
         all_visited = all_visited.Intersect(students[i]);
@@ -61,7 +56,6 @@ void Task1() {
         std::cout << "  " << d << "\n";
     }
 
-    // 2. Дискотеки, которые ходили некоторые студенты (объединение всех множеств)
     MySet<std::string> some_visited = students[0];
     for (size_t i = 1; i < students.size(); ++i) {
         some_visited = some_visited.Union(students[i]);
@@ -71,7 +65,6 @@ void Task1() {
         std::cout << "  " << d << "\n";
     }
 
-    // 3. Дискотеки, которые не ходил ни один студент (разность всех дискотек и объединения)
     MySet<std::string> none_visited = all_discos.Except(some_visited);
     std::cout << "Дискотеки, НЕ посещённые НИ ОДНИМ студентом:\n";
     for (const auto& d : none_visited) {
@@ -104,7 +97,6 @@ void Task2() {
         if (line.empty()) continue;
 
         Applicant app;
-        // формат: Фамилия Имя балл1 балл2 балл3
         size_t pos1 = line.find(' ');
         size_t pos2 = line.find(' ', pos1 + 1);
         size_t pos3 = line.find(' ', pos2 + 1);
@@ -116,7 +108,6 @@ void Task2() {
         app.scores[1] = std::stoi(line.substr(pos3 + 1, pos4 - pos3 - 1));
         app.scores[2] = std::stoi(line.substr(pos4 + 1));
 
-        // Проверка условий допуска
         if (app.scores[0] >= 30 && app.scores[1] >= 30 && app.scores[2] >= 30 &&
             (app.scores[0] + app.scores[1] + app.scores[2]) >= 140) {
             admitted.push_back(app);
@@ -125,7 +116,6 @@ void Task2() {
 
     file.close();
 
-    // Сортировка по фамилии, затем по имени
     std::sort(admitted.begin(), admitted.end());
 
     std::cout << "Абитуриенты, допущенные к экзаменам в первом потоке:\n";
@@ -147,7 +137,6 @@ void Task3() {
     double dist = p1.DistanceTo(p2);
     std::cout << "Расстояние между точками p1(1,2,3) и p2(4,6,8) = " << dist << "\n";
 
-    // Дополнительная проверка для наглядности
     Point3D p3(0,0,0);
     Point3D p4(3,4,12);
     std::cout << "Расстояние между (0,0,0) и (3,4,12) = " << p3.DistanceTo(p4) << "\n\n";
